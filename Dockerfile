@@ -30,11 +30,7 @@ COPY --from=base /app/.next ./.next
 COPY --from=base /app/public ./public
 
 # Expose the application port
-EXPOSE 3000
-
-# Add healthcheck
-HEALTHCHECK --interval=10s --timeout=3s --start-period=30s \
-  CMD curl -f http://localhost:3000/up || exit 1
+EXPOSE 80
 
 # Start the application
 CMD ["npm", "start"]
