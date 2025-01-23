@@ -38,9 +38,6 @@ builder:
   arch: amd64
   args:
     NODE_VERSION: 20
-  # Pass in additional build args needed for your Dockerfile.
-  # args:
-  #   RUBY_VERSION: <%= File.read('.ruby-version').strip %>
 
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 #
