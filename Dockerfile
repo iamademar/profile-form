@@ -34,7 +34,7 @@ EXPOSE 3000
 
 # Add healthcheck
 HEALTHCHECK --interval=10s --timeout=3s --start-period=30s \
-  CMD curl -f http://localhost:3000/ || exit 1
+  CMD curl -f http://localhost:3000/up || exit 1
 
 # Start the application
 CMD ["npm", "start"]
