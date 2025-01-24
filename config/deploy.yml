@@ -7,7 +7,7 @@ image: iamademar/agility-automation
 # Deploy to these servers.
 servers:
   web:
-    - 3.107.201.51
+    - 13.55.46.35
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -20,7 +20,7 @@ servers:
 proxy:
   ssl: true
   host: agilityautomation.ademartutor.com
-  app_port: 3000
+  app_port: 80
 
 # Credentials for your image host.
 registry:
