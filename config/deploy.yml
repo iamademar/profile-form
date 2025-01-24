@@ -40,8 +40,9 @@ builder:
 
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 #
-# env:
-#   clear:
+env:
+  clear:
+    NEXT_PUBLIC_API_URL: https://agilityautomationapi.ademartutor.com
 #     DB_HOST: 192.168.0.2
 #   secret:
 #     - RAILS_MASTER_KEY
