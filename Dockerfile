@@ -17,9 +17,6 @@ RUN npm run build
 # Use a lightweight Node.js image for the production environment
 FROM node:20-alpine AS release
 
-# Install curl for healthcheck
-RUN apk --no-cache add curl
-
 # Set the working directory
 WORKDIR /app
 
@@ -32,5 +29,4 @@ COPY --from=base /app/public ./public
 # Expose the application port
 EXPOSE 80
 
-# Start the application
 CMD ["npm", "start"]
