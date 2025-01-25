@@ -25,12 +25,25 @@ if (typeof window !== 'undefined') {
   // @ts-expect-error Type error: Could not find a declaration file for module '@rails/actioncable'.
   import('@rails/actioncable').then(({ createConsumer }) => {
     // Use nullish coalescing operator to only fall back if the value is null/undefined
-    // const wsUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
-    const wsUrl = 'https://agilityapi.ademartutor.com';
+    const wsUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
     const wsEndpoint = `${wsUrl}/cable`;
     
     // Create consumer with the full WebSocket URL
     consumer = createConsumer(wsEndpoint.replace(/^http/, 'ws'));
+
+    consumer.subscriptions.create('PingChannel', {
+      connected() {
+        console.log('WebSocket connection opened');
+      },
+
+      disconnected() {
+        console.log('WebSocket connection closed');
+      },
+
+      rejected() {
+        console.error('WebSocket connection rejected');
+      },
+    });
 
     userUpdatesSubscription = consumer.subscriptions.create('UserUpdatesChannel', {
       connected() {
@@ -39,6 +52,10 @@ if (typeof window !== 'undefined') {
 
       disconnected() {
         console.log('Disconnected from UserUpdates channel');
+      },
+
+      rejected() {
+        console.error('Failed to connect to UserUpdates channel');
       },
 
       received(data: {
