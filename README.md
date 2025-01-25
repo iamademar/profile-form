@@ -1,7 +1,3 @@
-Here’s an improved and visually appealing version of the **Profile Form Frontend** README:
-
----
-
 # 🎨 Profile Form Frontend
 
 A modern web application built with Next.js that provides real-time user management capabilities through seamless integration with a Rails backend.
