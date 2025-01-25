@@ -57,55 +57,59 @@ export default function StatusPage() {
   }, []);
 
   useEffect(() => {
-    const originalHandler = userUpdatesSubscription.received;
-    
-    userUpdatesSubscription.received = (data: {
-      type: string;
-      user: {
-        id: number;
-        first_name: string;
-        last_name: string;
-        email: string;
-        date_of_birth: string;
-        synced_at?: string;
-        [key: string]: unknown;
-      };
-    }) => {
-      // Call the original handler first
-      if (originalHandler) {
-        originalHandler(data);
-      }
+    if (userUpdatesSubscription) {
+      const originalHandler = userUpdatesSubscription.received;
       
-      console.log('Status Page received update:', {
-        type: data.type,
-        data: data,
-        timestamp: new Date().toISOString()
-      });
-      
-      if (data.type === 'sync_status_update') {
-        setUsers((prevUsers) =>
-          prevUsers.map((user) =>
-            user.id === data.user.id ? { ...user, synced_at: data.user.synced_at } : user
-          )
-        );
-      } else if (data.type === 'new_user') {
-        // Ensure the new user has all required fields before adding
-        const newUser: User = {
-          id: data.user.id,
-          first_name: data.user.first_name,
-          last_name: data.user.last_name,
-          email: data.user.email,
-          date_of_birth: data.user.date_of_birth,
-          synced_at: data.user.synced_at,
+      userUpdatesSubscription.received = (data: {
+        type: string;
+        user: {
+          id: number;
+          first_name: string;
+          last_name: string;
+          email: string;
+          date_of_birth: string;
+          synced_at?: string;
+          [key: string]: unknown;
         };
-        setUsers((prevUsers) => [newUser, ...prevUsers]);
-      }
-    };
+      }) => {
+        // Call the original handler first
+        if (originalHandler) {
+          originalHandler(data);
+        }
+        
+        console.log('Status Page received update:', {
+          type: data.type,
+          data: data,
+          timestamp: new Date().toISOString()
+        });
+        
+        if (data.type === 'sync_status_update') {
+          setUsers((prevUsers) =>
+            prevUsers.map((user) =>
+              user.id === data.user.id ? { ...user, synced_at: data.user.synced_at } : user
+            )
+          );
+        } else if (data.type === 'new_user') {
+          // Ensure the new user has all required fields before adding
+          const newUser: User = {
+            id: data.user.id,
+            first_name: data.user.first_name,
+            last_name: data.user.last_name,
+            email: data.user.email,
+            date_of_birth: data.user.date_of_birth,
+            synced_at: data.user.synced_at,
+          };
+          setUsers((prevUsers) => [newUser, ...prevUsers]);
+        }
+      };
 
-    return () => {
-      // Restore the original handler on cleanup
-      userUpdatesSubscription.received = originalHandler;
-    };
+      return () => {
+        // Restore the original handler on cleanup
+        if (userUpdatesSubscription) {
+          userUpdatesSubscription.received = originalHandler;
+        }
+      };
+    }
   }, []);
 
   const columns: ColumnDef<User>[] = [
