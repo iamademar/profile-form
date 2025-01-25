@@ -31,20 +31,6 @@ if (typeof window !== 'undefined') {
     // Create consumer with the full WebSocket URL
     consumer = createConsumer(wsEndpoint.replace(/^http/, 'ws'));
 
-    consumer.subscriptions.create('PingChannel', {
-      connected() {
-        console.log('WebSocket connection opened');
-      },
-
-      disconnected() {
-        console.log('WebSocket connection closed');
-      },
-
-      rejected() {
-        console.error('WebSocket connection rejected');
-      },
-    });
-
     userUpdatesSubscription = consumer.subscriptions.create('UserUpdatesChannel', {
       connected() {
         console.log('Connected to UserUpdates channel');
