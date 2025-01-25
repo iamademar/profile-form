@@ -7,7 +7,7 @@ image: iamademar/agility-automation
 # Deploy to these servers.
 servers:
   web:
-    - 13.55.46.35
+    - 3.107.185.68
   # job:
   #   hosts:
   #     - 192.168.0.1
