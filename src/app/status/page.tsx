@@ -84,12 +84,14 @@ export default function StatusPage() {
         });
         
         if (data.type === 'sync_status_update') {
+          console.log('Updating synced_at for user:', data.user.id);
           setUsers((prevUsers) =>
             prevUsers.map((user) =>
               user.id === data.user.id ? { ...user, synced_at: data.user.synced_at } : user
             )
           );
         } else if (data.type === 'new_user') {
+          console.log('Adding new user:', data.user);
           // Ensure the new user has all required fields before adding
           const newUser: User = {
             id: data.user.id,
