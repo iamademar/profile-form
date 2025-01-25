@@ -28,6 +28,7 @@ if (typeof window !== 'undefined') {
     const wsUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
     const wsEndpoint = `${wsUrl}/cable`;
     
+    console.log('WebSocket URL:', wsEndpoint);
     // Create consumer with the full WebSocket URL
     consumer = createConsumer(wsEndpoint.replace(/^http/, 'ws'));
 
