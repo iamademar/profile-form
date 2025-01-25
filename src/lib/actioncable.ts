@@ -25,7 +25,16 @@ if (typeof window !== 'undefined') {
   // @ts-expect-error Type error: Could not find a declaration file for module '@rails/actioncable'.
   import('@rails/actioncable').then(({ createConsumer }) => {
     // Use nullish coalescing operator to only fall back if the value is null/undefined
-    const wsUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
+    // const wsUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
+
+    // Use process.env.NODE_ENV to determine the environment
+    const isProduction = process.env.NODE_ENV === 'production';
+
+    // Set the WebSocket URL based on the environment
+    const wsUrl = isProduction
+      ? 'https://agilityapi.ademartutor.com'
+      : 'http://localhost:3000';
+      
     const wsEndpoint = `${wsUrl}/cable`;
     
     console.log('WebSocket URL:', wsEndpoint);
