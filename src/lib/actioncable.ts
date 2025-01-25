@@ -24,9 +24,14 @@ if (typeof window !== 'undefined') {
   /* @ts-nocheck */
   // @ts-expect-error Type error: Could not find a declaration file for module '@rails/actioncable'.
   import('@rails/actioncable').then(({ createConsumer }) => {
-
-    const wsUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/cable';
-    consumer = createConsumer(wsUrl.replace(/^http/, 'ws'));
+    const wsUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
+    const wsEndpoint = `${wsUrl}/cable`;
+    
+    // Properly handle both http→ws and https→wss conversions
+    const wsProtocol = wsEndpoint.startsWith('https') ? 'wss' : 'ws';
+    const websocketUrl = wsEndpoint.replace(/^http(s)?:\/\//, `${wsProtocol}://`);
+    
+    consumer = createConsumer(websocketUrl);
 
     userUpdatesSubscription = consumer.subscriptions.create('UserUpdatesChannel', {
       connected() {
